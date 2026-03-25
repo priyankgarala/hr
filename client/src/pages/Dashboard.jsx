@@ -29,34 +29,6 @@ export default function Dashboard() {
 
         
 
-        {/* 📊 Navigation Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          
-          <div
-            onClick={() => navigate("/profile")}
-            className="bg-gray-800 p-4 rounded cursor-pointer hover:bg-white hover:text-black transition"
-          >
-            <h2 className="text-lg">Profile</h2>
-            <p>View and update your details</p>
-          </div>
-
-          <div
-            onClick={() => navigate("/attendance")}
-            className="bg-gray-800 p-4 rounded cursor-pointer hover:bg-white hover:text-black transition"
-          >
-            <h2 className="text-lg">Attendance</h2>
-            <p>Check your attendance records</p>
-          </div>
-
-          <div
-            onClick={() => navigate("/leave")}
-            className="bg-gray-800 p-4 rounded cursor-pointer hover:bg-white hover:text-black transition"
-          >
-            <h2 className="text-lg">Leave</h2>
-            <p>Apply and track leaves</p>
-          </div>
-
-        </div>
       </div>
     </div>
   );
