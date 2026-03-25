@@ -1,1 +1,10 @@
 @import "tailwindcss";
+.react-calendar {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+}
+
+.react-calendar__tile {
+  padding: 12px;
+}

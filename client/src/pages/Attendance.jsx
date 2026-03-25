@@ -1,74 +1,151 @@
 import { useEffect, useState } from "react";
 import API from "../utils/axios";
-import Sidebar from "../components/SideBar";
+import { useAuth } from "../context/AuthContext";
 
 function Attendance() {
+  const { user } = useAuth();
   const [records, setRecords] = useState([]);
+  const [filters, setFilters] = useState({
+  day: "",
+  month: "",
+  year: "",
+});
 
   const fetchAttendance = async () => {
-    const res = await API.get("/attendance");
+  try {
+    const query = new URLSearchParams(filters).toString();
+
+    const url =
+      user.role === "admin"
+        ? `/attendance/all?${query}`
+        : `/attendance?${query}`;
+
+    const res = await API.get(url);
     setRecords(res.data);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+  const checkIn = async () => {
+    await API.post("/attendance/check-in");
+    fetchAttendance();
   };
 
- const handleCheckIn = async () => {
-    try {
-      await API.post("/attendance/check-in");
-      alert("Checked in successfully");
-    } catch (err) {
-      alert(err.response?.data?.message || "Error");
-    }
+  const checkOut = async () => {
+    await API.post("/attendance/check-out");
+    fetchAttendance();
   };
 
-  const handleCheckOut = async () => {
-    try {
-      await API.post("/attendance/check-out");
-      alert("Checked out successfully");
-    } catch (err) {
-      alert(err.response?.data?.message || "Error");
-    }
-  };
+  useEffect(() => {
+    if (user) fetchAttendance();
+  }, [user]);
 
   return (
-    <div className="flex">
-      
-      {/* Sidebar */}
-      <Sidebar />
-    <div className="flex-1 p-6 bg-black text-white min-h-screen">
-      
+    <div className="p-6 bg-black text-white min-h-screen">
       <h1 className="text-2xl mb-4">Attendance</h1>
 
-      <div className="flex gap-4 mb-6">
-          <button
-            onClick={handleCheckIn}
-            className="bg-green-500 px-4 py-2 rounded"
-          >
+      <div className="flex gap-3 mb-4 flex-wrap">
+  
+  <input
+    type="number"
+    placeholder="Day"
+    className="input w-24"
+    onChange={(e) =>
+      setFilters({ ...filters, day: e.target.value })
+    }
+  />
+
+  <input
+    type="number"
+    placeholder="Month"
+    className="input w-24"
+    onChange={(e) =>
+      setFilters({ ...filters, month: e.target.value })
+    }
+  />
+
+  <input
+    type="number"
+    placeholder="Year"
+    className="input w-32"
+    onChange={(e) =>
+      setFilters({ ...filters, year: e.target.value })
+    }
+  />
+
+  <button
+    onClick={fetchAttendance}
+    className="bg-white text-black px-4 py-2"
+  >
+    Apply
+  </button>
+
+  <button
+    onClick={() => {
+      setFilters({ day: "", month: "", year: "" });
+      fetchAttendance();
+    }}
+    className="bg-gray-700 px-4 py-2"
+  >
+    Reset
+  </button>
+
+</div>
+
+      {/* ✅ ONLY FOR EMPLOYEE */}
+      {user.role !== "admin" && (
+        <div className="flex gap-3 mb-4">
+          <button onClick={checkIn} className="bg-green-500 px-4 py-2">
             Check In
           </button>
 
-          <button
-            onClick={handleCheckOut}
-            className="bg-blue-500 px-4 py-2 rounded"
-          >
+          <button onClick={checkOut} className="bg-blue-500 px-4 py-2">
             Check Out
           </button>
         </div>
-        <div>
-            <button onClick={fetchAttendance} className="bg-gray-500 px-4 py-2 rounded">
-              Refresh Records
-            </button>
-        </div>
+      )}
 
-      {records.map((r) => (
-        <div key={r._id} className="bg-gray-900 p-3 mb-2 rounded">
-          <p>Date: {r.date}</p>
-          <p>Status: {r.status}</p>
-          <p>Check In: {r.checkIn}</p>
-          <p>Check Out: {r.checkOut}</p>
+      {/* 🔥 TABLE */}
+      <div className="overflow-x-auto">
+        <table className="w-full bg-gray-900 rounded">
+          <thead>
+            <tr className="bg-gray-800">
+              {user.role === "admin" && <th className="p-2">Name</th>}
+              {user.role === "admin" && <th className="p-2">Employee ID</th>}
+              <th className="p-2">Date</th>
+              <th className="p-2">Status</th>
+              <th className="p-2">Check In</th>
+              <th className="p-2">Check Out</th>
+            </tr>
+          </thead>
 
-        
-        </div>
-      ))}
-    </div>
+          <tbody>
+            {records.map((r) => (
+              <tr key={r._id} className="text-center border-t border-gray-700">
+                
+                {/* Admin Fields */}
+                {user.role === "admin" && (
+                  <td className="p-2">{r.userId?.name}</td>
+                )}
+
+                {user.role === "admin" && (
+                  <td className="p-2">{r.userId?.employeeId}</td>
+                )}
+
+                <td className="p-2">{r.date}</td>
+                <td className="p-2">{r.status}</td>
+                <td className="p-2">
+                  {r.checkIn ? new Date(r.checkIn).toLocaleTimeString() : "-"}
+                </td>
+                <td className="p-2">
+                  {r.checkOut ? new Date(r.checkOut).toLocaleTimeString() : "-"}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

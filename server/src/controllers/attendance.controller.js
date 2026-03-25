@@ -53,3 +53,33 @@ exports.getMyAttendance = async (req, res) => {
   const records = await Attendance.find({ userId: req.user.id });
   res.json(records);
 };
+// ADMIN: GET ALL ATTENDANCE
+exports.getAllAttendance = async (req, res) => {
+  try {
+    const { day, month, year } = req.query;
+
+    let filter = {};
+
+    if (year) {
+      filter.date = { $regex: `^${year}` }; // YYYY
+    }
+
+    if (year && month) {
+      const m = month.padStart(2, "0");
+      filter.date = { $regex: `^${year}-${m}` }; // YYYY-MM
+    }
+
+    if (year && month && day) {
+      const m = month.padStart(2, "0");
+      const d = day.padStart(2, "0");
+      filter.date = `${year}-${m}-${d}`; // exact date
+    }
+
+    const records = await Attendance.find(filter)
+      .populate("userId", "name employeeId");
+
+    res.json(records);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching attendance" });
+  }
+};

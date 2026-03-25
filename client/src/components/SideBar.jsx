@@ -56,13 +56,24 @@ function Sidebar() {
           >
             Attendance
           </button>
-
+{user?.role != "admin" && (
           <button
             onClick={() => navigate("/leave")}
             className={`btn ${isActive("/leave") && "bg-white text-black"}`}
           >
             Leave
           </button>
+)}
+          {user?.role === "admin" && (
+          <button
+          onClick={() => navigate("/admin/leaves")}
+          className={`btn ${isActive("/admin/leaves") && "bg-white text-black"}`}
+          >
+            Manage Leaves
+  </button>
+
+  
+)}
 
         </div>
       </div>

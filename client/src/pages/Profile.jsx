@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getProfile, updateProfile } from "../api/auth.api";
 import { useAuth } from "../context/AuthContext";
+import Sidebar from "../components/SideBar";
 
 function Profile() {
   const { user, fetchUser } = useAuth();
@@ -27,7 +28,11 @@ function Profile() {
   if (!user) return <div className="text-white">Loading...</div>;
 
   return (
-    <div className="min-h-screen bg-black text-white p-6">
+    <div className="flex">
+      
+      {/* Sidebar */}
+      <Sidebar />
+    <div className="flex-1 min-h-screen bg-black text-white p-6">
       <h1 className="text-2xl mb-6">Profile</h1>
 
       <div className="bg-gray-900 p-6 rounded-xl space-y-4">
@@ -46,10 +51,11 @@ function Profile() {
           <input
             disabled
             value={form.email || ""}
-            className="input"
+            className="w-sm input"
           />
 
           <input
+            placeholder="Employee ID"
             disabled
             value={form.employeeId || ""}
             className="input"
@@ -139,6 +145,7 @@ function Profile() {
           )}
         </div>
       </div>
+    </div>
     </div>
   );
 }

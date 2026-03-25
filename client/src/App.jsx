@@ -7,6 +7,8 @@ import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Attendance from "./pages/Attendance";
 import Leave from "./pages/Leave";
+import AdminLeaves from "./pages/AdminLeaves";
+
 
 function App() {
   return (
@@ -17,6 +19,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/attendance" element={<Attendance />} />
 <Route path="/leave" element={<Leave />} />
+<Route path="/admin/leaves" element={<AdminLeaves />} />
 
           <Route
             path="/dashboard"
