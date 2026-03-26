@@ -21,11 +21,9 @@ function Sidebar() {
   return (
     <div className="w-64 bg-gray-900 text-white min-h-screen p-4 flex flex-col justify-between">
       
-      {/* Top Section */}
       <div>
         <h2 className="text-xl mb-6">HRMS</h2>
 
-        {/* User Info */}
         {user && (
           <div className="mb-6 p-3 bg-gray-800 rounded">
             <p className="font-semibold">{user.name}</p>
@@ -33,7 +31,6 @@ function Sidebar() {
           </div>
         )}
 
-        {/* Navigation */}
         <div className="flex flex-col gap-3">
 
           <button
