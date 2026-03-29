@@ -34,3 +34,48 @@ exports.updateLeaveStatus = async (req, res) => {
 
   res.json(leave);
 };
+
+exports.managerDecision = async (req, res) => {
+  const { decision } = req.body; // Approved / Rejected
+  const managerId = req.user.id;
+
+  const leave = await Leave.findById(req.params.id);
+
+  if (!leave) {
+    return res.status(404).json({ message: "Leave not found" });
+  }
+
+  // ❌ Prevent duplicate decision
+  const already = leave.approvals.find(
+    (a) => a.managerId.toString() === managerId
+  );
+
+  if (already) {
+    return res.status(400).json({ message: "Already decided" });
+  }
+
+  // ✅ Add decision
+  leave.approvals.push({ managerId, decision });
+
+  // 🔥 Count approvals
+  const approvals = leave.approvals.filter(
+    (a) => a.decision === "Approved"
+  ).length;
+
+  const rejections = leave.approvals.filter(
+    (a) => a.decision === "Rejected"
+  ).length;
+
+  // 🔥 Logic
+  if (approvals >= 2) {
+    leave.status = "Approved";
+  }
+
+  if (rejections >= 2) {
+    leave.status = "Rejected";
+  }
+
+  await leave.save();
+
+  res.json(leave);
+};

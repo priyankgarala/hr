@@ -68,3 +68,35 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+
+exports.createUserByAdmin = async (req, res) => {
+  const { name, email, password, role } = req.body;
+
+  try {
+    // check if user exists
+    const exists = await User.findOne({ email });
+    if (exists) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    // hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // generate employeeId
+    const count = await User.countDocuments();
+    const employeeId = `EMP${String(count + 1).padStart(3, "0")}`;
+
+    const user = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      role,
+      employeeId,
+    });
+
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: "Error creating user" });
+  }
+};

@@ -8,6 +8,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Attendance from "./pages/Attendance";
 import Leave from "./pages/Leave";
 import AdminLeaves from "./pages/AdminLeaves";
+import ManagerLeaves from "./pages/ManagerLeaves";
+import AdminUsers from "./pages/AdminUsers";
+
 
 
 function App() {
@@ -20,6 +23,8 @@ function App() {
           <Route path="/attendance" element={<Attendance />} />
 <Route path="/leave" element={<Leave />} />
 <Route path="/admin/leaves" element={<AdminLeaves />} />
+<Route path="/manager/leaves" element={<ManagerLeaves />} />
+<Route path="/admin/users" element={<AdminUsers />} />
 
           <Route
             path="/dashboard"
