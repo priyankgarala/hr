@@ -18,8 +18,7 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
-    // 🔥 UPDATED ROLE
-    role: {
+    role: { // added manager
       type: String,
       enum: ["employee", "manager", "admin"],
       default: "employee",
