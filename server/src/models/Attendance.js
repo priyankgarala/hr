@@ -6,7 +6,7 @@ const attendanceSchema = new mongoose.Schema({
     ref: "User",
   },
   date: {
-    type: String, // YYYY-MM-DD . 
+    type: String, // YYYY-MM-DD
   },
   checkIn: Date,
   checkOut: Date,
