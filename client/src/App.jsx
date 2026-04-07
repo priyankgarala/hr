@@ -10,6 +10,7 @@ import Leave from "./pages/Leave";
 import AdminLeaves from "./pages/AdminLeaves";
 import ManagerLeaves from "./pages/ManagerLeaves";
 import AdminUsers from "./pages/AdminUsers";
+import Chat from "./pages/Chat";
 
 
 
@@ -21,10 +22,11 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/attendance" element={<Attendance />} />
-<Route path="/leave" element={<Leave />} />
-<Route path="/admin/leaves" element={<AdminLeaves />} />
-<Route path="/manager/leaves" element={<ManagerLeaves />} />
-<Route path="/admin/users" element={<AdminUsers />} />
+          <Route path="/leave" element={<Leave />} />
+          <Route path="/admin/leaves" element={<AdminLeaves />} />
+          <Route path="/manager/leaves" element={<ManagerLeaves />} />
+          <Route path="/admin/users" element={<AdminUsers />} />
+          <Route path="/chat" element={<Chat />} />
 
           <Route
             path="/dashboard"

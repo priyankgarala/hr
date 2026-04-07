@@ -72,6 +72,12 @@ function Sidebar() {
     Manage Users
   </button>
 )}
+<button
+  onClick={() => navigate("/chat")}
+  className={`btn ${isActive("/chat") && "bg-white text-black"}`}
+>
+  Chat Bot
+</button>
           {user?.role === "admin" && (
           <button
           onClick={() => navigate("/admin/leaves")}
@@ -79,6 +85,7 @@ function Sidebar() {
           >
             Manage Leaves
   </button>
+  
 
   
 )}
