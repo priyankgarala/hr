@@ -1,5 +1,6 @@
 import { useState } from "react";
 import API from "../utils/axios";
+import Sidebar from "../components/SideBar";
 
 function Chat() {
   const [message, setMessage] = useState("");
@@ -22,9 +23,11 @@ function Chat() {
 
     setMessage("");
   };
-
+ // return
   return (
-    <div className="p-6 bg-black text-white min-h-screen flex flex-col">
+    <div className="flex">
+      <Sidebar />
+    <div className="p-6 bg-black text-white min-h-screen flex flex-col w-full flex-1">
       <h1 className="text-2xl mb-4">HR Assistant 🤖</h1>
 
       {/* Chat Box */}
@@ -65,6 +68,7 @@ function Chat() {
           Send
         </button>
       </div>
+    </div>
     </div>
   );
 }

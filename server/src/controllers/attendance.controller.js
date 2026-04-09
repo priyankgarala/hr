@@ -48,31 +48,56 @@ exports.checkOut = async (req, res) => {
   res.json(attendance);
 };
 
-// GET MY ATTENDANCE
+// 🔥 GET MY ATTENDANCE (WITH FILTERS)
 exports.getMyAttendance = async (req, res) => {
-  const records = await Attendance.find({ userId: req.user.id });
-  res.json(records);
+  try {
+    const { day, month, year } = req.query;
+
+    let filter = {
+      userId: req.user.id,
+    };
+
+    if (year || month || day) {
+      let regex = "";
+
+      if (year) regex += year;
+      else regex += "\\d{4}";
+
+      if (month) regex += `-${month.padStart(2, "0")}`;
+      else if (year) regex += "-\\d{2}";
+
+      if (day) regex += `-${day.padStart(2, "0")}`;
+
+      filter.date = { $regex: `^${regex}` };
+    }
+
+    const records = await Attendance.find(filter);
+
+    res.json(records);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching attendance" });
+  }
 };
-// ADMIN: GET ALL ATTENDANCE
+
+// 🔥 ADMIN: GET ALL ATTENDANCE (WITH FILTERS)
 exports.getAllAttendance = async (req, res) => {
   try {
     const { day, month, year } = req.query;
 
     let filter = {};
 
-    if (year) {
-      filter.date = { $regex: `^${year}` }; // YYYY
-    }
+    if (year || month || day) {
+      let regex = "";
 
-    if (year && month) {
-      const m = month.padStart(2, "0");
-      filter.date = { $regex: `^${year}-${m}` }; // YYYY-MM
-    }
+      if (year) regex += year;
+      else regex += "\\d{4}";
 
-    if (year && month && day) {
-      const m = month.padStart(2, "0");
-      const d = day.padStart(2, "0");
-      filter.date = `${year}-${m}-${d}`; // exact date
+      if (month) regex += `-${month.padStart(2, "0")}`;
+      else if (year) regex += "-\\d{2}";
+
+      if (day) regex += `-${day.padStart(2, "0")}`;
+
+      filter.date = { $regex: `^${regex}` };
     }
 
     const records = await Attendance.find(filter)
