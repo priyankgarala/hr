@@ -85,8 +85,6 @@ hrms/
 │
 └── README.md
 
----
-
 ## ⚙️ Installation & Setup
 
 ### 1️⃣ Clone the repository
