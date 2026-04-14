@@ -63,27 +63,6 @@ A full-stack Human Resource Management System built to manage employees, attenda
 - REST APIs
 - Gemini API (AI Chatbot)
 
----
-
-## 📂 Project Structure
-hrms/
-│
-├── client/ # React Frontend
-│ ├── src/
-│ │ ├── pages/
-│ │ ├── components/
-│ │ ├── context/
-│ │ ├── api/
-│ │ └── utils/
-│
-├── server/ # Node Backend
-│ ├── controllers/
-│ ├── models/
-│ ├── routes/
-│ ├── middleware/
-│ └── config/
-│
-└── README.md
 
 ## ⚙️ Installation & Setup
 
