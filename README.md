@@ -66,3 +66,43 @@ A full-stack Human Resource Management System built to manage employees, attenda
 ---
 
 ## 📂 Project Structure
+hrms/
+│
+├── client/ # React Frontend
+│ ├── src/
+│ │ ├── pages/
+│ │ ├── components/
+│ │ ├── context/
+│ │ ├── api/
+│ │ └── utils/
+│
+├── server/ # Node Backend
+│ ├── controllers/
+│ ├── models/
+│ ├── routes/
+│ ├── middleware/
+│ └── config/
+│
+└── README.md
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1️⃣ Clone the repository
+```bash
+git clone https://github.com/your-username/hrms.git
+cd hrms
+cd server
+npm install
+
+PORT=5000
+MONGO_URI=your_mongodb_uri
+JWT_SECRET=your_secret
+GEMINI_API_KEY=your_key
+
+npm run dev
+
+cd client
+npm install
+npm run dev
